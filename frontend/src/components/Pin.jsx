@@ -11,6 +11,36 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
 
   const navigate = useNavigate();
 
+  const user =
+    localStorage.getItem('user') !== 'undefined'
+      ? JSON.parse(localStorage.getItem('user'))
+      : localStorage.clear();
+
+  let alreadySaved = !!save?.filter(item => item?.postedBy?._id === user?.sub)
+    ?.length;
+
+  const savePin = id => {
+    if (!alreadySaved) {
+      client
+        .patch(id)
+        .setIfMissing({ save: [] })
+        .insert('after', 'save[-1]', [
+          {
+            _key: uuidv4(),
+            userId: user?.sub,
+            postedBy: {
+              _type: 'postedBy',
+              _ref: user?.sub
+            }
+          }
+        ])
+        .commit()
+        .then(() => {
+          window.location.reload();
+        });
+    }
+  };
+
   return (
     <div className="m-2">
       <div
@@ -42,6 +72,25 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                   <MdDownloadForOffline />
                 </a>
               </div>
+              {alreadySaved ? (
+                <button
+                  type="button"
+                  className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outline-none"
+                >
+                  {save?.length} Saved
+                </button>
+              ) : (
+                <button
+                  onClick={e => {
+                    e.stopPropagation();
+                    savePin(_id);
+                  }}
+                  type="button"
+                  className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outline-none"
+                >
+                  Save
+                </button>
+              )}
             </div>
           </div>
         )}
