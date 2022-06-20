@@ -19,6 +19,12 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
   let alreadySaved = !!save?.filter(item => item?.postedBy?._id === user?.sub)
     ?.length;
 
+  const deletePin = id => {
+    client.delete(id).then(() => {
+      window.location.reload();
+    });
+  };
+
   const savePin = id => {
     if (!alreadySaved) {
       client
@@ -103,6 +109,18 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                   <BsFillArrowUpRightCircleFill />
                   {destination?.slice(8, 20)}...
                 </a>
+              )}
+              {postedBy?._id === user?.sub && (
+                <button
+                  type="button"
+                  onClick={e => {
+                    e.stopPropagation();
+                    deletePin(_id);
+                  }}
+                  className="bg-white p-2 opacity-70 hover:opacity-100 font-bold text-dark text-base rounded-3xl hover:shadow-md outline-none"
+                >
+                  <AiTwotoneDelete />
+                </button>
               )}
             </div>
           </div>
