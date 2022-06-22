@@ -117,6 +117,20 @@ const CreatePin = ({ user }) => {
               <p className="font-bold">{user.userName}</p>
             </div>
           )}
+          <input
+            type="text"
+            value={about}
+            onChange={e => setAbout(e.target.value)}
+            placeholder="What is your pin about"
+            className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
+          />
+          <input
+            type="url"
+            vlaue={destination}
+            onChange={e => setDestination(e.target.value)}
+            placeholder="Add a destination link"
+            className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
+          />
         </div>
       </div>
     </div>
