@@ -131,6 +131,33 @@ const CreatePin = ({ user }) => {
             placeholder="Add a destination link"
             className="outline-none text-base sm:text-lg border-b-2 border-gray-200 p-2"
           />
+
+          <div className="flex flex-col">
+            <div>
+              <p className="mb-2 font-semibold text-lg sm:text-xl">
+                Choose Pin Category
+              </p>
+              <select
+                onChange={e => {
+                  setCategory(e.target.value);
+                }}
+                className="outline-none w-4/5 text-base border-b-2 border-gray-200 p-2 rounded-md cursor-pointer"
+              >
+                <option value="others" className="bg-white">
+                  Select Category
+                </option>
+                {categories.map(item => (
+                  <option
+                    key={item.name}
+                    className="text-base border-0 outline-none capitalize bg-white text-black"
+                    value={item.name}
+                  >
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
       </div>
     </div>
