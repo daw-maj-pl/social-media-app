@@ -83,6 +83,25 @@ const PinDetail = ({ user }) => {
           />
           <p className="font-bold">{pinDetail?.postedBy.userName}</p>
         </Link>
+        <h2 className="mt-5 text-2xl">Comments</h2>
+        <div className="max-h-370 overflow-y-auto">
+          {pinDetail?.comments?.map(item => (
+            <div
+              className="flex gap-2 mt-5 items-center bg-white rounded-lg"
+              key={item.comment}
+            >
+              <img
+                src={item.postedBy?.image}
+                className="w-10 h-10 rounded-full cursor-pointer"
+                alt="user-profile"
+              />
+              <div className="flex flex-col">
+                <p className="font-bold">{item.postedBy?.userName}</p>
+                <p>{item.comment}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
